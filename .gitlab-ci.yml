@@ -1,0 +1,28 @@
+include:
+  - project: 'shared/gitlab-ci-includes'
+    ref: main
+    file:
+      - '/base.yml'
+      - '/pypi-packages.yml'
+      - '/debian-packages.yml'
+      - '/python.yml'
+
+variables:
+  APTLY_BASE_REPOSITORY: common
+
+stages:
+  - test
+  - build
+  - publish
+
+unit test and feature test:
+  stage: test
+  image: python:3.11
+  script:
+    - !reference [.add repositories, script]
+    - pip install --no-cache-dir -r requirements/test.txt
+    - pip install .
+    - pytest -n 10 -vvv --cov-branch --cov=cyberfusion.WorkItemAutomations --cov-config=.coveragerc --cov-fail-under=100 --junitxml=report-pytest.xml
+  artifacts:
+    reports:
+      junit: report-*.xml

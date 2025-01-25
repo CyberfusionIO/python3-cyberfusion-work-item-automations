@@ -1,0 +1,14 @@
+NAME="glwia"
+AUTHOR="Cyberfusion <system-messages.foundation@cyberfusion.io>"
+TUXIS_CRONLOCK="/tmp/.tuxis-cron.$NAME.lock"
+MASTERLOG="/var/log/tuxis-cron/$NAME.log"
+PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+
+ESCALATE_MAILTO="system-messages.foundation@cyberfusion.io"
+
+SCRIPT=/usr/bin/glwia
+
+func_cron()
+{
+  $SCRIPT --config-file-path /etc/glwia.yml || fatal "Error running GitLab work item automations"
+}
