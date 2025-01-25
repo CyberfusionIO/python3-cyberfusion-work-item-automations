@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+#DEBHELPER#
+
+if [ "$1" = "configure" ]; then
+    chown glwia: /etc/glwia.yml
+    chmod 0600 /etc/glwia.yml
+fi
+
+exit 0

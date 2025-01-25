@@ -1,0 +1,7 @@
+coverage==7.6.1
+pytest==8.3.2
+pytest-cov==6.0.0
+pytest-mock==3.14.0
+pytest-xdist==3.6.1
+python3-cyberfusion-common==2.11
+requests-mock==1.12.1
