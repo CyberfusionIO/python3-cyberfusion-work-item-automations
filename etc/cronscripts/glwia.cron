@@ -1,7 +1,7 @@
 NAME="glwia"
 AUTHOR="Cyberfusion <system-messages.foundation@cyberfusion.io>"
 TUXIS_CRONLOCK="/tmp/.tuxis-cron.$NAME.lock"
-MASTERLOG="/var/log/tuxis-cron/$NAME.log"
+MASTERLOG="/tmp/$NAME.log"
 PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 
 ESCALATE_MAILTO="system-messages.foundation@cyberfusion.io"
