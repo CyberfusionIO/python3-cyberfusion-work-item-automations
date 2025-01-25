@@ -35,7 +35,10 @@ No configuration is supported.
 ## Create config file
 
 In its most basic form, the config file must contain the URL to your GitLab instance, and a private token (PAT).
+
 Create the PAT according to the [documentation](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token) with the `api` scope.
+To the private token's user - usually a dedicated bot account - grant access to projects and/or groups it must be able to access, depending on your configuration.
+The necessary role, e.g. 'Guest' or 'Developer', depends on the actions taken. Usually, granting the 'Developer' role suffices.
 
 ```yaml
 automations: []
@@ -76,6 +79,20 @@ automations:
       assignee_group: best-developers
       # Issue contents
       description: Check stuff, do stuff, ...
+```
+
+Want to add properties to the issue, such as labels or an assignee?
+Use [quick actions](https://docs.gitlab.com/ee/user/project/quick_actions.html#issues-merge-requests-and-epics).
+For example:
+
+```yaml
+automations:
+  create_issue:
+    - name: Do something repetitive
+      ...
+      description: |
+        /assign @ceo
+        /label ~"status::to do"
 ```
 
 ## Run automations
