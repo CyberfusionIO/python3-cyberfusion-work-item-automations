@@ -23,6 +23,7 @@ class CreateIssueAutomationConfig(AutomationConfig):
 
     project: str
     title: str
+    assignee_group: str | None
     description: str
 
 
@@ -71,6 +72,9 @@ class Config:
                     name=automation["name"],
                     project=automation["project"],
                     title=automation["title"],
+                    assignee_group=automation["assignee_group"]
+                    if "assignee_group" in automation
+                    else None,
                     description=automation["description"],
                     schedule=automation["schedule"],
                 )

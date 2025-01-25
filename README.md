@@ -58,10 +58,17 @@ Add one or more automations to the `automations` key.
 automations:
   create_issue:
     - name: Do something repetitive
-      schedule: 5 13 3 * *.
+      schedule: 5 13 3 * *
+      # Project to create issue in. Format: # namespace/project
       project: example-group/example-project
+      # Issue title
       title: Check the yard
-      description: Check stuff, do stuff, ..
+      # Optional:
+      #   If specified, issue is assigned to a **random** user in the specified group, with at least the role 'Developer'.
+      #   If unspecified, the issue is not assigned to anyone.
+      assignee_group: best-developers
+      # Issue contents
+      description: Check stuff, do stuff, ...
 ```
 
 ## Run automations

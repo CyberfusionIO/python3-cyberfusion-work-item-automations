@@ -1,6 +1,7 @@
 python3-cyberfusion-work-item-automations (1.1) UNRELEASED; urgency=low
 
   - Log to stdout
+  - `create_issue` automation: add `assignee_group` option (optional)
 
  -- William Edwards <wedwards@cyberfusion.nl>  Sat, 25 Jan 2025 19:49:00 +0100
 
