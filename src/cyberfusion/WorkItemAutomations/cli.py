@@ -11,10 +11,22 @@ Options:
 import logging
 
 import docopt
+import sys
 from schema import Schema
 
 from cyberfusion.WorkItemAutomations.config import Config
 from cyberfusion.WorkItemAutomations.automations import CreateIssueAutomation
+
+root_logger = logging.getLogger()
+root_logger.propagate = False
+root_logger.setLevel(logging.DEBUG)
+
+stream_handler = logging.StreamHandler(sys.stdout)
+stream_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+)
+
+root_logger.addHandler(stream_handler)
 
 logger = logging.getLogger(__name__)
 
