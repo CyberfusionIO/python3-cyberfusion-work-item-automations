@@ -7,6 +7,10 @@ set -e
 if [ "$1" = "configure" ]; then
     chown glwia: /etc/glwia.yml
     chmod 0600 /etc/glwia.yml
+
+    mkdir /run/glwia/
+    chown glwia: /run/glwia/
+    chmod 0700 /run/glwia/
 fi
 
 exit 0

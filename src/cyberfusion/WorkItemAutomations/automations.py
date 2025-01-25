@@ -44,18 +44,14 @@ class Automation(AutomationInterface):
     @property
     def _metadata_file_base_path(self) -> str:
         """Get base path in which metadata files are stored."""
-        return os.path.join(
-            os.path.sep,
-            "var",
-            "run",
-        )
+        return os.path.join(os.path.sep, "run", "glwia")
 
     @property
     def _metadata_file_path(self) -> str:
         """Get path to metadata file."""
         return os.path.join(
             self._metadata_file_base_path,
-            "glwia-" + self.config.name.replace(" ", "_").lower() + ".txt",
+            self.config.name.replace(" ", "_").lower() + ".txt",
         )
 
     def save_last_execution(self) -> None:
