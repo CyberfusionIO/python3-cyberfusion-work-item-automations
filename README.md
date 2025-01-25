@@ -62,7 +62,14 @@ automations:
       # Project to create issue in. Format: # namespace/project
       project: example-group/example-project
       # Issue title
-      title: Check the yard
+      #
+      # Variables:
+      #   - next_week_number (example: 5)
+      #   - current_month_number (example: 1)
+      #   - current_year (example: 2025)
+      title: Check the yard for month {current_month_number}-{current_year}
+      # Assign the issue to a member of this group
+      #
       # Optional:
       #   If specified, issue is assigned to a **random** user in the specified group.
       #   If unspecified, the issue is not assigned to anyone.
