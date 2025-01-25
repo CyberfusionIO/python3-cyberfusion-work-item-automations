@@ -1,3 +1,9 @@
+python3-cyberfusion-work-item-automations (1.1) UNRELEASED; urgency=low
+
+  - Log to stdout
+
+ -- William Edwards <wedwards@cyberfusion.nl>  Sat, 25 Jan 2025 19:49:00 +0100
+
 python3-cyberfusion-work-item-automations (1.0) unstable; urgency=low
 
   - Initial release
