@@ -1,7 +1,10 @@
+from cyberfusion.Common import get_tmp_file
+
 from pytest_mock import MockerFixture
 import docopt
 import pytest
 import json
+import yaml
 from requests_mock import Mocker
 from cyberfusion.WorkItemAutomations import cli
 from cyberfusion.WorkItemAutomations.config import Config
@@ -17,12 +20,37 @@ def test_cli_get_args() -> None:
 def test_cli_executes_automations(
     mocker: MockerFixture,
     requests_mock: Mocker,
-    config: Config,
     example_project_name: str,
     example_group_name: str,
     caplog: LogCaptureFixture,
     metadata_file_base_path_mock: None,
 ) -> None:
+    TITLE = "Example title"
+    DESCRIPTION = "Example description"
+
+    path = get_tmp_file()
+
+    data = {
+        "url": "https://gitlab.example.com",
+        "private_token": "glpat-1aVadca471A281la331L",
+        "automations": {
+            "create_issue": [
+                {
+                    "name": "Create issue",
+                    "project": example_group_name + "/" + example_project_name,
+                    "title": TITLE,
+                    "description": DESCRIPTION,
+                    "schedule": "5 13 3 * *",
+                }
+            ]
+        },
+    }
+
+    with open(path, "w") as f:
+        yaml.dump(data, f)
+
+    config = Config(path)
+
     ID_PROJECT = 182
 
     mocker.patch(
@@ -235,8 +263,8 @@ def test_cli_executes_automations(
             "id": 4123,
             "iid": 102,
             "project_id": ID_PROJECT,
-            "title": "Example title",
-            "description": "Example description",
+            "title": TITLE,
+            "description": DESCRIPTION,
             "state": "opened",
             "created_at": "2025-01-25T16:14:34.946+01:00",
             "updated_at": "2025-01-25T16:14:34.946+01:00",
@@ -322,7 +350,10 @@ def test_cli_executes_automations(
     with caplog.at_level(logging.INFO):
         cli.main()
 
-    assert issue_mock.called
+    assert issue_mock.last_request.json() == {
+        "title": TITLE,
+        "description": DESCRIPTION,
+    }
 
     for automation in config.automations:
         assert "Handling automation: " + automation.name in caplog.text
