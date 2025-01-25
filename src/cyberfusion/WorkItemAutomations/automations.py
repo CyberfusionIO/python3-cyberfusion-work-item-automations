@@ -121,13 +121,7 @@ class CreateIssueAutomation(Automation):
 
             all_members = group.members.list(get_all=True)
 
-            candidate_members = [
-                member
-                for member in all_members
-                if member.access_level >= gitlab.const.AccessLevel.DEVELOPER
-            ]
-
-            payload["assignee_id"] = random.choice(candidate_members).id
+            payload["assignee_id"] = random.choice(all_members).id
 
         project.issues.create(payload)
 

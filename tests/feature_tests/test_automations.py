@@ -517,10 +517,7 @@ def test_create_issue_assignee_group_selection(
 
     automation = CreateIssueAutomation(config.automations[0])
 
-    # Execute automation and test:
-    #
-    #   - Only users with a role higher than 'Developer' are used
-    #   - Random users from the specified group are chosen
+    # Test random selection
 
     assignee_ids = []
 
@@ -529,9 +526,5 @@ def test_create_issue_assignee_group_selection(
 
         assignee_ids.append(issue_mock.last_request.json()["assignee_id"])
 
-    assert members[0]["id"] in assignee_ids  # Owner
-    assert members[1]["id"] in assignee_ids  # Maintainer
-    assert members[2]["id"] in assignee_ids  # Developer
-    assert members[3]["id"] not in assignee_ids  # Reporter
-    assert members[4]["id"] not in assignee_ids  # Guest
-    assert members[5]["id"] not in assignee_ids  # Minimal access
+    for member in members:
+        assert member["id"] in assignee_ids
