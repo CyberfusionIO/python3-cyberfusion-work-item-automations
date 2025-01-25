@@ -11,6 +11,7 @@ from croniter import croniter
 
 from cyberfusion.WorkItemAutomations.config import AutomationConfig
 from cyberfusion.WorkItemAutomations.gitlab import get_gitlab_connector
+import random
 
 
 class AutomationInterface(metaclass=ABCMeta):
@@ -113,8 +114,15 @@ class CreateIssueAutomation(Automation):
         """Execute automation."""
         project = self.gitlab_connector.projects.get(self.config.project)
 
-        project.issues.create(
-            {"title": self.config.title, "description": self.config.description}
-        )
+        payload = {"title": self.config.title, "description": self.config.description}
+
+        if self.config.assignee_group:
+            group = self.gitlab_connector.groups.get(self.config.assignee_group)
+
+            all_members = group.members.list(get_all=True)
+
+            payload["assignee_id"] = random.choice(all_members).id
+
+        project.issues.create(payload)
 
         self.save_last_execution()
