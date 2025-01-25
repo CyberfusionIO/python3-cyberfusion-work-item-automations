@@ -3,7 +3,10 @@ from datetime import datetime, timedelta
 
 from pytest_mock import MockerFixture
 
-from cyberfusion.WorkItemAutomations.automations import NOPAutomation
+from cyberfusion.WorkItemAutomations.automations import (
+    NOPAutomation,
+    CreateIssueAutomation,
+)
 from cyberfusion.WorkItemAutomations.config import Config, NOPAutomationConfig
 
 
@@ -84,3 +87,15 @@ def test_metadata_file_base_path(config: Config) -> None:
     )
 
     assert automation._metadata_file_base_path == "/var/run"
+
+
+def test_create_issue_interpolate_title() -> None:
+    title = "{next_week_number} {current_month_number} {current_year}"
+
+    next_week_number, current_month_number, current_year = (
+        CreateIssueAutomation.interpolate_title(title).split(" ")
+    )
+
+    assert next_week_number.isdigit()
+    assert current_month_number.isdigit()
+    assert current_year.isdigit()

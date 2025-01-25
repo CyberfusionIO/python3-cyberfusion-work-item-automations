@@ -8,7 +8,7 @@ from cyberfusion.WorkItemAutomations.config import (
     NOPAutomationConfig,
 )
 from croniter import croniter
-
+from datetime import timedelta
 from cyberfusion.WorkItemAutomations.config import AutomationConfig
 from cyberfusion.WorkItemAutomations.gitlab import get_gitlab_connector
 import random
@@ -110,11 +110,25 @@ class CreateIssueAutomation(Automation):
 
         self.config = config
 
+    @staticmethod
+    def interpolate_title(title: str) -> str:
+        """Get title with replaced variables."""
+        return title.format(
+            next_week_number=(datetime.utcnow() + timedelta(weeks=1))
+            .isocalendar()
+            .week,
+            current_month_number=datetime.utcnow().month,
+            current_year=datetime.utcnow().year,
+        )
+
     def execute(self) -> None:
         """Execute automation."""
         project = self.gitlab_connector.projects.get(self.config.project)
 
-        payload = {"title": self.config.title, "description": self.config.description}
+        payload = {
+            "title": self.interpolate_title(self.config.title),
+            "description": self.config.description,
+        }
 
         if self.config.assignee_group:
             group = self.gitlab_connector.groups.get(self.config.assignee_group)
