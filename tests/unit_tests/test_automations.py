@@ -86,7 +86,7 @@ def test_metadata_file_base_path(config: Config) -> None:
         NOPAutomationConfig(base=config, name="test", schedule="* * * * *")
     )
 
-    assert automation._metadata_file_base_path == "/var/run"
+    assert automation._metadata_file_base_path == "/run/glwia"
 
 
 def test_create_issue_interpolate_title() -> None:
