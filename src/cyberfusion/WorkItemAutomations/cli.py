@@ -15,6 +15,9 @@ import sys
 from schema import Schema
 
 from cyberfusion.WorkItemAutomations.automations.nop import NOPAutomation
+from cyberfusion.WorkItemAutomations.automations.summarise_issues import (
+    SummariseIssuesAutomation,
+)
 from cyberfusion.WorkItemAutomations.config import (
     Config,
     CreateIssueAutomationConfig,
@@ -70,7 +73,7 @@ def main() -> None:
         elif isinstance(automation_config, NOPAutomationConfig):
             class_ = NOPAutomation
         else:
-            class_ = CreateIssueAutomation
+            class_ = SummariseIssuesAutomation
 
         logger.info("Handling automation: %s", automation_config.name)
 
