@@ -5,6 +5,7 @@ Automations for GitLab work items (issues, PRs, etc.)
 The following automations are supported:
 
 * Create recurring issues (using cron schedule)
+* Summarise issues (useful for sprints, stand-ups, etc.)
 
 GitLab doesn't support workflows natively. For example, there's no built-in way to create recurring issues, or take actions on issues when something happens to a PR, etc.
 For the purpose of developing GitLab itself, GitLab does provide the external tool [`gitlab-triage`](https://gitlab.com/gitlab-org/ruby/gems/gitlab-triage). However, it is quite limiting: for example, it doesn't allow for creating standalone, recurring issues.
@@ -95,6 +96,27 @@ automations:
         /label ~"status::to do"
 ```
 
+### Summarise issues
+
+```yaml
+automations:
+  summarise_issues:
+    - name: Summarise this week's issues (start-of-week stand-up)
+      schedule: 0 11 * * 1  # Monday, 11:00
+      # Project to create issue in. Format: # namespace/project
+      project: example-group/example-project
+      # Optional:
+      #   If specified, summarised are open issues in the given iteration.
+      #   If unspecified, summarised are all open issues in projects that the bot can access.
+      #
+      # Variables:
+      #   - today_minus_7_days (example: 2025-01-02)
+      #   - today_plus_7_days (example: 2025-01-08)
+      #   - today (example: 2025-01-14)
+      #
+      iteration_date_range: {today_minus_7_days}/{today}
+```
+
 ### NOP
 
 An automation that does nothing, for testing purposes.
@@ -102,7 +124,7 @@ An automation that does nothing, for testing purposes.
 ```yaml
 automations:
   nop:
-    - name: Do something repetitive
+    - name: Do nothing
       schedule: 5 13 3 * *
 ```
 

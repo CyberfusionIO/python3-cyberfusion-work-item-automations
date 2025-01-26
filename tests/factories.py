@@ -3,6 +3,7 @@ import factory
 from cyberfusion.WorkItemAutomations.config import (
     CreateIssueAutomationConfig,
     NOPAutomationConfig,
+    SummariseIssuesAutomationConfig,
 )
 
 
@@ -12,9 +13,7 @@ class BaseAutomationConfigFactory(factory.Factory):
 
     class Params:
         private_token_suffix = factory.Faker("pystr", min_chars=20, max_chars=20)
-        url_with_trailing_slash = factory.Faker(
-            "url",
-        )
+        url_with_trailing_slash = factory.Faker("url")
 
     name = factory.Faker(
         "sentence",
@@ -33,23 +32,25 @@ class CreateIssueAutomationConfigFactory(BaseAutomationConfigFactory):
         model = CreateIssueAutomationConfig
 
     class Params:
-        namespace = factory.Faker(
-            "word",
-        )
-        project_name = factory.Faker(
-            "word",
-        )
+        namespace = factory.Faker("word")
+        project_name = factory.Faker("word")
 
     project = factory.LazyAttribute(lambda obj: f"{obj.namespace}/{obj.project_name}")
-    title = factory.Faker(
-        "sentence",
-    )
-    assignee_group = factory.Faker(
-        "word",
-    )
-    description = factory.Faker(
-        "sentence",
-    )
+    title = factory.Faker("sentence")
+    assignee_group = factory.Faker("word")
+    description = factory.Faker("sentence")
+
+
+class SummariseIssuesAutomationConfigFactory(BaseAutomationConfigFactory):
+    class Meta:
+        model = SummariseIssuesAutomationConfig
+
+    class Params:
+        namespace = factory.Faker("word")
+        project_name = factory.Faker("word")
+
+    project = factory.LazyAttribute(lambda obj: f"{obj.namespace}/{obj.project_name}")
+    iteration_date_range = "{today_minus_7_days}/{today}"
 
 
 class NOPAutomationConfigFactory(BaseAutomationConfigFactory):
