@@ -9,16 +9,17 @@ from cached_property import cached_property
 
 
 @dataclass
-class AutomationConfig:
+class BaseAutomationConfig:
     """Automation config."""
 
-    base: "Config"
     name: str
     schedule: str
+    url: str
+    private_token: str
 
 
 @dataclass
-class CreateIssueAutomationConfig(AutomationConfig):
+class CreateIssueAutomationConfig(BaseAutomationConfig):
     """Automation config."""
 
     project: str
@@ -28,7 +29,7 @@ class CreateIssueAutomationConfig(AutomationConfig):
 
 
 @dataclass
-class NOPAutomationConfig(AutomationConfig):
+class NOPAutomationConfig(BaseAutomationConfig):
     """Automation config."""
 
 
@@ -56,19 +57,17 @@ class Config:
         return self._contents["private_token"]
 
     @property
-    def automations(self) -> List[AutomationConfig]:
+    def automations(self) -> List[BaseAutomationConfig]:
         """Get automations."""
-        automations: List[AutomationConfig] = []
+        automations: List[BaseAutomationConfig] = []
 
-        seen_names = []
+        # Construct automation classes
 
-        for automation in self._contents["automations"]["create_issue"]:
-            if automation["name"] in seen_names:
-                raise ValueError("Duplicate automation name: " + automation["name"])
-
+        for automation in self._contents["automations"].get("create_issue", []):
             automations.append(
                 CreateIssueAutomationConfig(
-                    base=self,
+                    url=self.url,
+                    private_token=self.private_token,
                     name=automation["name"],
                     project=automation["project"],
                     title=automation["title"],
@@ -80,6 +79,24 @@ class Config:
                 )
             )
 
-            seen_names.append(automation["name"])
+        for automation in self._contents["automations"].get("nop", []):
+            automations.append(
+                NOPAutomationConfig(
+                    url=self.url,
+                    private_token=self.private_token,
+                    name=automation["name"],
+                    schedule=automation["schedule"],
+                )
+            )
+
+        # Find duplicate names
+
+        seen_names = []
+
+        for automation in automations:
+            if automation.name in seen_names:
+                raise ValueError("Duplicate automation name: " + automation.name)
+
+            seen_names.append(automation.name)
 
         return automations

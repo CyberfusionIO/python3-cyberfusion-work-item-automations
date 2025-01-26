@@ -14,8 +14,11 @@ import docopt
 import sys
 from schema import Schema
 
-from cyberfusion.WorkItemAutomations.config import Config
-from cyberfusion.WorkItemAutomations.automations import CreateIssueAutomation
+from cyberfusion.WorkItemAutomations.automations.nop import NOPAutomation
+from cyberfusion.WorkItemAutomations.config import Config, CreateIssueAutomationConfig
+from cyberfusion.WorkItemAutomations.automations.create_issue import (
+    CreateIssueAutomation,
+)
 
 root_logger = logging.getLogger()
 root_logger.propagate = False
@@ -58,7 +61,10 @@ def main() -> None:
     # Execute automations
 
     for automation_config in config.automations:
-        class_ = CreateIssueAutomation
+        if isinstance(automation_config, CreateIssueAutomationConfig):
+            class_ = CreateIssueAutomation
+        else:
+            class_ = NOPAutomation
 
         logger.info("Handling automation: %s", automation_config.name)
 

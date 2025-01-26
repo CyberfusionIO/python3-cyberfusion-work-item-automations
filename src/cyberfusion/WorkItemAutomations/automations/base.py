@@ -1,23 +1,22 @@
-from abc import ABCMeta, abstractmethod
-import gitlab
 import os
-from cached_property import cached_property
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
-from cyberfusion.WorkItemAutomations.config import (
-    CreateIssueAutomationConfig,
-    NOPAutomationConfig,
-)
+
+import gitlab
+from cached_property import cached_property
 from croniter import croniter
-from datetime import timedelta
-from cyberfusion.WorkItemAutomations.config import AutomationConfig
+
+from cyberfusion.WorkItemAutomations.config import BaseAutomationConfig
 from cyberfusion.WorkItemAutomations.gitlab import get_gitlab_connector
-import random
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AutomationInterface(metaclass=ABCMeta):
     """Automation interface."""
 
-    def __init__(self, config: AutomationConfig) -> None:
+    def __init__(self, config: BaseAutomationConfig) -> None:
         """Set attributes."""
 
     @abstractmethod
@@ -28,7 +27,7 @@ class AutomationInterface(metaclass=ABCMeta):
 class Automation(AutomationInterface):
     """Automation."""
 
-    def __init__(self, config: AutomationConfig) -> None:
+    def __init__(self, config: BaseAutomationConfig) -> None:
         """Set attributes."""
         super().__init__(config)
 
@@ -37,9 +36,9 @@ class Automation(AutomationInterface):
     @cached_property  # type: ignore[misc]
     def gitlab_connector(self) -> gitlab.client.Gitlab:
         """Get GitLab connector."""
-        return get_gitlab_connector(
-            self.config.base.url, self.config.base.private_token
-        )
+        logger.info("Connecting to GitLab at %s", self.config.url)
+
+        return get_gitlab_connector(self.config.url, self.config.private_token)
 
     @property
     def _metadata_file_base_path(self) -> str:
@@ -81,58 +80,3 @@ class Automation(AutomationInterface):
         next_run = cron.get_next(datetime)
 
         return datetime.utcnow() >= next_run
-
-
-class NOPAutomation(Automation):
-    """Do nothing."""
-
-    def __init__(self, config: NOPAutomationConfig) -> None:
-        """Set attributes."""
-        super().__init__(config)
-
-        self.config = config
-
-    def execute(self) -> None:
-        """Execute automation."""
-        self.save_last_execution()
-
-
-class CreateIssueAutomation(Automation):
-    """Create issue."""
-
-    def __init__(self, config: CreateIssueAutomationConfig) -> None:
-        """Set attributes."""
-        super().__init__(config)
-
-        self.config = config
-
-    @staticmethod
-    def interpolate_title(title: str) -> str:
-        """Get title with replaced variables."""
-        return title.format(
-            next_week_number=(datetime.utcnow() + timedelta(weeks=1))
-            .isocalendar()
-            .week,
-            current_month_number=datetime.utcnow().month,
-            current_year=datetime.utcnow().year,
-        )
-
-    def execute(self) -> None:
-        """Execute automation."""
-        project = self.gitlab_connector.projects.get(self.config.project)
-
-        payload = {
-            "title": self.interpolate_title(self.config.title),
-            "description": self.config.description,
-        }
-
-        if self.config.assignee_group:
-            group = self.gitlab_connector.groups.get(self.config.assignee_group)
-
-            all_members = group.members.list(get_all=True)
-
-            payload["assignee_id"] = random.choice(all_members).id
-
-        project.issues.create(payload)
-
-        self.save_last_execution()
