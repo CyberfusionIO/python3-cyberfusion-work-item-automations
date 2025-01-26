@@ -113,6 +113,10 @@ automations:
       #   - today_minus_7_days (example: 2025-01-02)
       #   - today_plus_7_days (example: 2025-01-08)
       #   - today (example: 2025-01-14)
+      # Note: these variables don't add or subtract the given amount of days
+      # (e.g. 7 days) to/from today, but equal a total of 7 days (including
+      # today). This matches GitLab iterations, which span exactly 7 days
+      # (e.g. days 20 from start - 26 to finish).
       #
       iteration_date_range: {today_minus_7_days}/{today}
 ```
