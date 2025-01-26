@@ -118,7 +118,7 @@ automations:
       # today). This matches GitLab iterations, which span exactly 7 days
       # (e.g. days 20 from start - 26 to finish).
       #
-      iteration_date_range: {today_minus_7_days}/{today}
+      iteration_date_range: '{today_minus_7_days}/{today}'
 ```
 
 ### NOP
