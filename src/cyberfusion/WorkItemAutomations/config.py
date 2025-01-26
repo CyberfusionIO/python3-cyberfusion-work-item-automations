@@ -19,6 +19,14 @@ class BaseAutomationConfig:
 
 
 @dataclass
+class SummariseIssuesAutomationConfig(BaseAutomationConfig):
+    """Automation config."""
+
+    iteration_date_range: str | None
+    project: str
+
+
+@dataclass
 class CreateIssueAutomationConfig(BaseAutomationConfig):
     """Automation config."""
 
@@ -86,6 +94,18 @@ class Config:
                     private_token=self.private_token,
                     name=automation["name"],
                     schedule=automation["schedule"],
+                )
+            )
+
+        for automation in self._contents["automations"].get("summarise_issues", []):
+            automations.append(
+                SummariseIssuesAutomationConfig(
+                    url=self.url,
+                    private_token=self.private_token,
+                    name=automation["name"],
+                    schedule=automation["schedule"],
+                    project=automation["project"],
+                    iteration_date_range=automation["iteration_date_range"],
                 )
             )
 

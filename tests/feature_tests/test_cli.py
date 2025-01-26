@@ -9,6 +9,7 @@ from dataclasses import asdict
 from tests.factories import (
     NOPAutomationConfigFactory,
     CreateIssueAutomationConfigFactory,
+    SummariseIssuesAutomationConfigFactory,
 )
 from tests.helpers import create_config
 
@@ -25,6 +26,7 @@ def test_cli_executes_automations(
     automations = {
         "create_issue": [asdict(CreateIssueAutomationConfigFactory.build())],
         "nop": [asdict(NOPAutomationConfigFactory.build())],
+        "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.build())],
     }
 
     config = create_config(automations)
@@ -49,6 +51,10 @@ def test_cli_executes_automations(
         "cyberfusion.WorkItemAutomations.automations.nop.NOPAutomation.execute",
         return_value=None,
     )
+    mocker.patch(
+        "cyberfusion.WorkItemAutomations.automations.summarise_issues.SummariseIssuesAutomation.execute",
+        return_value=None,
+    )
 
     with caplog.at_level(logging.INFO):
         cli.main()
@@ -66,6 +72,7 @@ def test_cli_skips_automations(
     automations = {
         "create_issue": [asdict(CreateIssueAutomationConfigFactory.build())],
         "nop": [asdict(NOPAutomationConfigFactory.build())],
+        "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.build())],
     }
 
     config = create_config(automations)

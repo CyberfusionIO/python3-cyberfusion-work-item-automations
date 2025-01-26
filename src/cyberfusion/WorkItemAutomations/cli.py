@@ -15,7 +15,11 @@ import sys
 from schema import Schema
 
 from cyberfusion.WorkItemAutomations.automations.nop import NOPAutomation
-from cyberfusion.WorkItemAutomations.config import Config, CreateIssueAutomationConfig
+from cyberfusion.WorkItemAutomations.config import (
+    Config,
+    CreateIssueAutomationConfig,
+    NOPAutomationConfig,
+)
 from cyberfusion.WorkItemAutomations.automations.create_issue import (
     CreateIssueAutomation,
 )
@@ -63,8 +67,10 @@ def main() -> None:
     for automation_config in config.automations:
         if isinstance(automation_config, CreateIssueAutomationConfig):
             class_ = CreateIssueAutomation
-        else:
+        elif isinstance(automation_config, NOPAutomationConfig):
             class_ = NOPAutomation
+        else:
+            class_ = CreateIssueAutomation
 
         logger.info("Handling automation: %s", automation_config.name)
 

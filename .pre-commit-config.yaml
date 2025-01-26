@@ -20,6 +20,7 @@ repos:
         additional_dependencies:
           - types-PyYAML==6.0.12.12
           - types-croniter==4.0.0.20241030
+          - types-tabulate==0.8.9
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
