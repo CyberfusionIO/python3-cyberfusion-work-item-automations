@@ -55,7 +55,7 @@ class SummariseIssuesAutomation(Automation):
             # Add row
 
             rows.append(
-                [issue.web_url, issue.title, ", ".join(assignees), ", ".join(labels)]
+                [issue.web_url, issue.title, ", ".join(assignees), " ".join(labels)]
             )
 
         table = tabulate(rows, headers, tablefmt="pipe")
