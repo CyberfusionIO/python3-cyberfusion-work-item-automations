@@ -42,7 +42,7 @@ The necessary role, e.g. 'Guest' or 'Developer', depends on the actions taken. U
 
 ```yaml
 automations: []
-private_token: glpat-1aVadca471A281la331L
+private_token: glpat-...
 url: https://gitlab.example.com
 ```
 
@@ -93,6 +93,17 @@ automations:
       description: |
         /assign @ceo
         /label ~"status::to do"
+```
+
+### NOP
+
+An automation that does nothing, for testing purposes.
+
+```yaml
+automations:
+  nop:
+    - name: Do something repetitive
+      schedule: 5 13 3 * *
 ```
 
 ## Run automations

@@ -6,49 +6,6 @@ import json
 import os
 import shutil
 from typing import Generator
-import yaml
-from cyberfusion.Common import get_tmp_file
-from cyberfusion.WorkItemAutomations.config import Config
-
-
-@pytest.fixture
-def example_group_name() -> str:
-    return "example-group"
-
-
-@pytest.fixture
-def example_project_name() -> str:
-    return "example-project"
-
-
-@pytest.fixture
-def config(example_project_name: str, example_group_name: str) -> Config:
-    path = get_tmp_file()
-
-    data = {
-        "url": "https://gitlab.example.com",
-        "private_token": "glpat-1aVadca471A281la331L",
-        "automations": {
-            "create_issue": [
-                {
-                    "name": "Update that",
-                    "project": example_group_name + "/" + example_project_name,
-                    "title": "Update that",
-                    "description": "Do something",
-                    "schedule": "5 13 3 * *",
-                }
-            ]
-        },
-    }
-
-    with open(path, "w") as f:
-        yaml.dump(data, f)
-
-    class_ = Config(path)
-
-    assert len(class_.automations) >= 1
-
-    return class_
 
 
 @pytest.fixture
@@ -62,20 +19,27 @@ def metadata_base_directory() -> Generator[str, None, None]:
     shutil.rmtree(path)
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def metadata_file_base_path_mock(
-    mocker: MockerFixture, metadata_base_directory: Generator[str, None, None]
+    mocker: MockerFixture,
+    metadata_base_directory: Generator[str, None, None],
+    request: pytest.FixtureRequest,
 ) -> None:
+    if "no_metadata_file_base_path_mock" in request.keywords:
+        return
+
     mocker.patch(
-        "cyberfusion.WorkItemAutomations.automations.Automation._metadata_file_base_path",
+        "cyberfusion.WorkItemAutomations.automations.base.Automation._metadata_file_base_path",
         new=mocker.PropertyMock(return_value=metadata_base_directory),
     )
 
 
 @pytest.fixture(autouse=True)
-def auth_mock(requests_mock: Mocker, config: Config) -> None:
+def auth_mock(
+    requests_mock: Mocker,
+) -> None:
     requests_mock.get(
-        config.url + "/api/v4/user",
+        "/api/v4/user",
         status_code=200,
         json={
             "id": 2,
