@@ -1,3 +1,10 @@
+python3-cyberfusion-work-item-automations (1.3) unstable; urgency=low
+
+  - `summarise_issues` automation: add description
+  - `summarise_issues` automation: fix running via CLI
+
+ -- William Edwards <wedwards@cyberfusion.nl>  Sun, 26 Jan 2025 19:13:00 +0100
+
 python3-cyberfusion-work-item-automations (1.2) unstable; urgency=low
 
   - Add 'summarise issues' automation
