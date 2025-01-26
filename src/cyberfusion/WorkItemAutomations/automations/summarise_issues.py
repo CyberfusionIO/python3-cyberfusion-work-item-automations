@@ -79,15 +79,26 @@ class SummariseIssuesAutomation(Automation):
             summarise_issues = []
 
             for issue in all_open_issues:
-                start_date, end_date = iteration_date_range.split("/")
+                start_date = datetime.strptime(
+                    iteration_date_range.split("/")[0], "%Y-%m-%d"
+                )
+                end_date = datetime.strptime(
+                    iteration_date_range.split("/")[1], "%Y-%m-%d"
+                )
 
                 if not issue.iteration:
                     continue
 
-                if issue.iteration["start_date"] < start_date:
+                if (
+                    datetime.strptime(issue.iteration["start_date"], "%Y-%m-%d")
+                    < start_date
+                ):
                     continue
 
-                if issue.iteration["due_date"] > end_date:
+                if (
+                    datetime.strptime(issue.iteration["due_date"], "%Y-%m-%d")
+                    > end_date
+                ):
                     continue
 
                 summarise_issues.append(issue)
