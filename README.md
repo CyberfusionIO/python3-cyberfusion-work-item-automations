@@ -119,6 +119,8 @@ automations:
       # (e.g. days 20 from start - 26 to finish).
       #
       iteration_date_range: '{today_minus_7_days}/{today}'
+      # Additional issue contents (added to top)
+      description: Check stuff, do stuff, ...
 ```
 
 ### NOP

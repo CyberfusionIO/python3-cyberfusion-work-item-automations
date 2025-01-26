@@ -238,7 +238,10 @@ def test_summarise_issues_without_iteration_date_range(
 
     assert last_request["title"] == f"Issues summary '{automation_config.name}'"
 
-    table = convert_markdown_table_to_dict(last_request["description"])
+    table = convert_markdown_table_to_dict(
+        "|"
+        + last_request["description"].split("|", 1)[1]  # Remove everything before table
+    )
 
     assert all(
         row["Issue"]
@@ -817,7 +820,10 @@ def test_summarise_issues_with_iteration_date_range(
         + ")"
     )
 
-    table = convert_markdown_table_to_dict(last_request["description"])
+    table = convert_markdown_table_to_dict(
+        "|"
+        + last_request["description"].split("|", 1)[1]  # Remove everything before table
+    )
 
     assert not any(
         row["Issue"]
@@ -825,6 +831,7 @@ def test_summarise_issues_with_iteration_date_range(
         for row in table
     )
     assert any(row["Issue"] in [issues[2]["web_url"]] for row in table)
+
     assert "Title" in table[0]
     assert "Assignees" in table[0]
     assert "Labels" in table[0]

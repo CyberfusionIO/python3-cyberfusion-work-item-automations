@@ -24,6 +24,7 @@ class SummariseIssuesAutomationConfig(BaseAutomationConfig):
 
     iteration_date_range: str | None
     project: str
+    description: str
 
 
 @dataclass
@@ -106,6 +107,7 @@ class Config:
                     schedule=automation["schedule"],
                     project=automation["project"],
                     iteration_date_range=automation["iteration_date_range"],
+                    description=automation["description"],
                 )
             )
 

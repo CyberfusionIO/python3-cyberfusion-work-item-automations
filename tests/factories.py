@@ -51,6 +51,7 @@ class SummariseIssuesAutomationConfigFactory(BaseAutomationConfigFactory):
 
     project = factory.LazyAttribute(lambda obj: f"{obj.namespace}/{obj.project_name}")
     iteration_date_range = "{today_minus_7_days}/{today}"
+    description = factory.Faker("sentence")
 
 
 class NOPAutomationConfigFactory(BaseAutomationConfigFactory):
