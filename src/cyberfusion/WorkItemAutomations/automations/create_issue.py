@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 
 from cyberfusion.WorkItemAutomations.automations.base import Automation
 from cyberfusion.WorkItemAutomations.config import CreateIssueAutomationConfig
+import os
+import base64
 
 
 class CreateIssueAutomation(Automation):
@@ -25,13 +27,30 @@ class CreateIssueAutomation(Automation):
             current_year=datetime.utcnow().year,
         )
 
+    def get_template_contents(self) -> str:
+        """Get issue template contents."""
+        file_ = self.gitlab_connector.projects.get(self.config.project).files.get(
+            os.path.join(
+                ".gitlab/issue_templates",
+                self.config.template,
+            ),
+            ref="HEAD",
+        )
+
+        return base64.b64decode(file_.content).decode()
+
     def execute(self) -> None:
         """Execute automation."""
         project = self.gitlab_connector.projects.get(self.config.project)
 
+        if self.config.description:
+            description = self.config.description
+        else:
+            description = self.get_template_contents()
+
         payload = {
             "title": self.interpolate_title(self.config.title),
-            "description": self.config.description,
+            "description": description,
         }
 
         if self.config.assignee_group:

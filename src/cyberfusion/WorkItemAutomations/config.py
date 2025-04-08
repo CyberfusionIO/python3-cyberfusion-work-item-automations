@@ -34,7 +34,8 @@ class CreateIssueAutomationConfig(BaseAutomationConfig):
     project: str
     title: str
     assignee_group: str | None
-    description: str
+    description: str | None = None
+    template: str | None = None
 
 
 @dataclass

@@ -39,6 +39,7 @@ class CreateIssueAutomationConfigFactory(BaseAutomationConfigFactory):
     title = factory.Faker("sentence")
     assignee_group = factory.Faker("word")
     description = factory.Faker("sentence")
+    template = factory.Faker("sentence")
 
 
 class SummariseIssuesAutomationConfigFactory(BaseAutomationConfigFactory):
