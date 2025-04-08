@@ -81,10 +81,9 @@ class Config:
                     name=automation["name"],
                     project=automation["project"],
                     title=automation["title"],
-                    assignee_group=automation["assignee_group"]
-                    if "assignee_group" in automation
-                    else None,
-                    description=automation["description"],
+                    assignee_group=automation.get("assignee_group", None),
+                    description=automation.get("description", None),
+                    template=automation.get("template", None),
                     schedule=automation["schedule"],
                 )
             )
