@@ -80,6 +80,8 @@ automations:
       assignee_group: best-developers
       # Issue contents
       description: Check stuff, do stuff, ...
+      # or use a template (see https://docs.gitlab.com/user/project/description_templates/#create-an-issue-template)
+      template: check_stuff.md
 ```
 
 Want to add properties to the issue, such as labels or an assignee?
