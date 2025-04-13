@@ -79,4 +79,4 @@ class Automation(AutomationInterface):
 
         next_run = cron.get_next(datetime)
 
-        return datetime.utcnow() >= next_run
+        return datetime.utcnow() >= next_run  # type: ignore[operator]
