@@ -79,4 +79,4 @@ class Automation(AutomationInterface):
 
         next_run = cron.get_next(datetime)
 
-        return datetime.utcnow() >= datetime.fromtimestamp(next_run)
+        return datetime.utcnow() >= next_run
