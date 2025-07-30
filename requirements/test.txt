@@ -1,6 +1,6 @@
 coverage==7.10.1
 factory_boy==3.3.3
-Faker==37.5.1
+Faker==37.5.3
 pytest==8.4.1
 pytest-cov==6.2.1
 pytest-mock==3.14.1
