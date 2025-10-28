@@ -1,5 +1,5 @@
 ---
-automations: []
+automations: {}
 private_token: glpat-...
 url: https://gitlab.example.com
 state_directory_path: /var/lib/glwia

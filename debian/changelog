@@ -2,6 +2,7 @@ python3-cyberfusion-work-item-automations (1.5) unstable; urgency=medium
 
   * Make state path configurable
   * Change Debian state directory to /var/lib/glwia/
+  * Fix `automations` key type in default config
 
  -- William Edwards <wedwards@cyberfusion.nl>  Tue, 28 Oct 2025 14:10:00 +0000
 
