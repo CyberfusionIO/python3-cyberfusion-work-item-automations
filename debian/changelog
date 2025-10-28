@@ -1,3 +1,10 @@
+python3-cyberfusion-work-item-automations (1.5) unstable; urgency=medium
+
+  * Make state path configurable
+  * Change Debian state directory to /var/lib/glwia/
+
+ -- William Edwards <wedwards@cyberfusion.nl>  Tue, 28 Oct 2025 14:10:00 +0000
+
 python3-cyberfusion-work-item-automations (1.4.2) unstable; urgency=medium
 
   * Use compat level 14

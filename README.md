@@ -45,6 +45,7 @@ The necessary role, e.g. 'Guest' or 'Developer', depends on the actions taken. U
 automations: []
 private_token: glpat-...
 url: https://gitlab.example.com
+state_directory_path: /tmp/glwia
 ```
 
 On Debian, add the config file to `/etc/glwia.yml` (used by the automatically configured cron, running automations).

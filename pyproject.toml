@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "python3-cyberfusion-work-item-automations"
-version = "1.4.2"
+version = "1.5"
 description = "Automations for GitLab work items."
 readme = "README.md"
 authors = [

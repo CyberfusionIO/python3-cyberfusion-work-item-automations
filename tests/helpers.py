@@ -8,7 +8,7 @@ from faker import Faker
 
 from requests_mock import Mocker
 import json
-
+import os
 
 faker = Faker()
 
@@ -22,6 +22,7 @@ def create_config(automations: dict) -> Config:
         "url": first_automation["url"],
         "private_token": first_automation["private_token"],
         "automations": automations,
+        "state_directory_path": os.path.join(os.path.sep, "tmp", "glwia-tests"),
     }
 
     with open(path, "w") as f:

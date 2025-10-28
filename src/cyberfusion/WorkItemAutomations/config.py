@@ -16,6 +16,7 @@ class BaseAutomationConfig:
     schedule: str
     url: str
     private_token: str
+    state_directory_path: str
 
 
 @dataclass
@@ -67,6 +68,11 @@ class Config:
         return self._contents["private_token"]
 
     @property
+    def state_directory_path(self) -> str:
+        """Get path to state directory."""
+        return self._contents["state_directory_path"]
+
+    @property
     def automations(self) -> List[BaseAutomationConfig]:
         """Get automations."""
         automations: List[BaseAutomationConfig] = []
@@ -78,6 +84,7 @@ class Config:
                 CreateIssueAutomationConfig(
                     url=self.url,
                     private_token=self.private_token,
+                    state_directory_path=self.state_directory_path,
                     name=automation["name"],
                     project=automation["project"],
                     title=automation["title"],
@@ -93,6 +100,7 @@ class Config:
                 NOPAutomationConfig(
                     url=self.url,
                     private_token=self.private_token,
+                    state_directory_path=self.state_directory_path,
                     name=automation["name"],
                     schedule=automation["schedule"],
                 )
@@ -103,6 +111,7 @@ class Config:
                 SummariseIssuesAutomationConfig(
                     url=self.url,
                     private_token=self.private_token,
+                    state_directory_path=self.state_directory_path,
                     name=automation["name"],
                     schedule=automation["schedule"],
                     project=automation["project"],

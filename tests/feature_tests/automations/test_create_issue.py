@@ -16,7 +16,7 @@ faker = Faker()
 def test_create_issue_with_assignee_group(
     requests_mock: Mocker,
 ):
-    automation_config = CreateIssueAutomationConfigFactory.build()
+    automation_config = CreateIssueAutomationConfigFactory.create()
     namespace, project_name = automation_config.project.split("/")
 
     project_id = mock_project_api(
@@ -142,7 +142,7 @@ def test_create_issue_with_assignee_group(
 def test_create_issue_without_assignee_group(
     requests_mock: Mocker,
 ):
-    automation_config = CreateIssueAutomationConfigFactory.build(assignee_group=None)
+    automation_config = CreateIssueAutomationConfigFactory.create(assignee_group=None)
     namespace, project_name = automation_config.project.split("/")
 
     project_id = mock_project_api(
@@ -257,7 +257,7 @@ def test_create_issue_template(
     template_name = faker.word()
     contents = faker.word()
 
-    automation_config = CreateIssueAutomationConfigFactory.build(
+    automation_config = CreateIssueAutomationConfigFactory.create(
         template=template_name, description=None
     )
     namespace, project_name = automation_config.project.split("/")
@@ -409,7 +409,7 @@ def test_create_issue_description(
 ):
     description = faker.word()
 
-    automation_config = CreateIssueAutomationConfigFactory.build(
+    automation_config = CreateIssueAutomationConfigFactory.create(
         template=None, description=description
     )
     namespace, project_name = automation_config.project.split("/")

@@ -41,15 +41,10 @@ class Automation(AutomationInterface):
         return get_gitlab_connector(self.config.url, self.config.private_token)
 
     @property
-    def _metadata_file_base_path(self) -> str:
-        """Get base path in which metadata files are stored."""
-        return os.path.join(os.path.sep, "run", "glwia")
-
-    @property
     def _metadata_file_path(self) -> str:
         """Get path to metadata file."""
         return os.path.join(
-            self._metadata_file_base_path,
+            self.config.state_directory_path,
             self.config.name.replace(" ", "_").lower() + ".txt",
         )
 
