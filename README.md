@@ -42,7 +42,7 @@ To the private token's user - usually a dedicated bot account - grant access to 
 The necessary role, e.g. 'Guest' or 'Developer', depends on the actions taken. Usually, granting the 'Developer' role suffices.
 
 ```yaml
-automations: []
+automations: {}
 private_token: glpat-...
 url: https://gitlab.example.com
 state_directory_path: /tmp/glwia
