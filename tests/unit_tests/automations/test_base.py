@@ -7,7 +7,6 @@ from cyberfusion.WorkItemAutomations.automations.nop import (
     NOPAutomation,
 )
 
-import pytest
 
 from tests.factories import NOPAutomationConfigFactory
 from tests.helpers import create_config
@@ -77,12 +76,3 @@ def test_automation_due(
         current_time,
         automation.last_execution_time,
     )
-
-
-@pytest.mark.no_metadata_file_base_path_mock
-def test_metadata_file_base_path() -> None:
-    config = create_config({"nop": [asdict(NOPAutomationConfigFactory.build())]})
-
-    automation = NOPAutomation(config.automations[0])
-
-    assert automation._metadata_file_base_path == "/run/glwia"

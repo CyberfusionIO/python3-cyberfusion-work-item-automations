@@ -1,3 +1,5 @@
+import os
+
 import factory
 
 from cyberfusion.WorkItemAutomations.config import (
@@ -25,6 +27,27 @@ class BaseAutomationConfigFactory(factory.Factory):
     private_token = factory.LazyAttribute(
         lambda obj: f"glpat-{obj.private_token_suffix}"
     )
+    state_directory_path = factory.Faker("file_path")
+
+    @classmethod
+    def _adjust_kwargs(cls, **kwargs: dict) -> dict:
+        kwargs["state_directory_path"] = os.path.join(
+            os.path.sep,
+            "tmp",
+            "glwia-tests",
+            os.path.relpath(kwargs["state_directory_path"], os.path.sep),
+        )
+
+        return kwargs
+
+    @factory.post_generation
+    def create_state_directory(
+        obj, create: bool, extracted: None, **kwargs: dict
+    ) -> None:
+        if not create:
+            return
+
+        os.makedirs(obj.state_directory_path)
 
 
 class CreateIssueAutomationConfigFactory(BaseAutomationConfigFactory):

@@ -1,37 +1,6 @@
-from pytest_mock import MockerFixture
-import uuid
 from requests_mock import Mocker
 import pytest
 import json
-import os
-import shutil
-from typing import Generator
-
-
-@pytest.fixture
-def metadata_base_directory() -> Generator[str, None, None]:
-    path = os.path.join(os.path.sep, "tmp", str(uuid.uuid4()))
-
-    os.mkdir(path)
-
-    yield path
-
-    shutil.rmtree(path)
-
-
-@pytest.fixture(autouse=True)
-def metadata_file_base_path_mock(
-    mocker: MockerFixture,
-    metadata_base_directory: Generator[str, None, None],
-    request: pytest.FixtureRequest,
-) -> None:
-    if "no_metadata_file_base_path_mock" in request.keywords:
-        return
-
-    mocker.patch(
-        "cyberfusion.WorkItemAutomations.automations.base.Automation._metadata_file_base_path",
-        new=mocker.PropertyMock(return_value=metadata_base_directory),
-    )
 
 
 @pytest.fixture(autouse=True)

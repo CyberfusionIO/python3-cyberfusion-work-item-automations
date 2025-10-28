@@ -16,7 +16,7 @@ faker = Faker()
 def test_summarise_issues_without_iteration_date_range(
     requests_mock: Mocker,
 ):
-    automation_config = SummariseIssuesAutomationConfigFactory.build(
+    automation_config = SummariseIssuesAutomationConfigFactory.create(
         iteration_date_range=None
     )
     namespace, project_name = automation_config.project.split("/")
@@ -260,7 +260,7 @@ def test_summarise_issues_with_iteration_date_range(
 ):
     iteration_date_range = "{today}/{today_plus_7_days}"
 
-    automation_config = SummariseIssuesAutomationConfigFactory.build(
+    automation_config = SummariseIssuesAutomationConfigFactory.create(
         iteration_date_range=iteration_date_range
     )
     namespace, project_name = automation_config.project.split("/")

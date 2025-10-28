@@ -24,9 +24,9 @@ def test_cli_executes_automations(
     caplog: LogCaptureFixture,
 ) -> None:
     automations = {
-        "create_issue": [asdict(CreateIssueAutomationConfigFactory.build())],
-        "nop": [asdict(NOPAutomationConfigFactory.build())],
-        "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.build())],
+        "create_issue": [asdict(CreateIssueAutomationConfigFactory.create())],
+        "nop": [asdict(NOPAutomationConfigFactory.create())],
+        "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.create())],
     }
 
     config = create_config(automations)

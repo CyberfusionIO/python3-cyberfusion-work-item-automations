@@ -8,9 +8,11 @@ if [ "$1" = "configure" ]; then
     chown glwia: /etc/glwia.yml
     chmod 0600 /etc/glwia.yml
 
-    mkdir -p /run/glwia/
-    chown glwia: /run/glwia/
-    chmod 0700 /run/glwia/
+    STATE_DIRECTORY=/var/lib/glwia/
+
+    mkdir -p $STATE_DIRECTORY
+    chown glwia: $STATE_DIRECTORY
+    chmod 0700 $STATE_DIRECTORY
 fi
 
 exit 0
