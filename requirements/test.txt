@@ -1,4 +1,4 @@
-coverage==7.11.2
+coverage==7.11.3
 factory_boy==3.3.3
 Faker==37.12.0
 pytest==8.4.2
