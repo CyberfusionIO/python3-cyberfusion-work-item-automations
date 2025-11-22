@@ -1,5 +1,5 @@
 mypy==1.18.2
-pre-commit==4.4.0
+pre-commit==4.5.0
 ruff==0.14.6
 types-croniter==6.0.0.20250809
 types-PyYAML==6.0.12.20250915
