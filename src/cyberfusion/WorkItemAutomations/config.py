@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import List
 
 import yaml
-from cached_property import cached_property
+from functools import cached_property
 
 
 @dataclass
@@ -51,7 +51,7 @@ class Config:
         """Path to config file."""
         self.path = path
 
-    @cached_property  # type: ignore[misc]
+    @cached_property
     def _contents(self) -> dict:
         """Set config from YAML file."""
         with open(self.path, "rb") as fh:
