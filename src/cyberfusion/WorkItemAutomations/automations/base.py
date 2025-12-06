@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 from datetime import datetime
 
 import gitlab
-from cached_property import cached_property
+from functools import cached_property
 from croniter import croniter
 
 from cyberfusion.WorkItemAutomations.config import BaseAutomationConfig
@@ -33,7 +33,7 @@ class Automation(AutomationInterface):
 
         self.config = config
 
-    @cached_property  # type: ignore[misc]
+    @cached_property
     def gitlab_connector(self) -> gitlab.client.Gitlab:
         """Get GitLab connector."""
         logger.info("Connecting to GitLab at %s", self.config.url)
