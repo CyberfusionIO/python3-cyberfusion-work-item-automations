@@ -27,6 +27,14 @@ class CreateIssueAutomation(Automation):
             current_year=datetime.utcnow().year,
         )
 
+    @staticmethod
+    def interpolate_description(description: str) -> str:
+        """Get description with replaced variables."""
+        return description.format(
+            year=datetime.utcnow().year,
+            month=datetime.utcnow().strftime("%B"),
+        )
+
     def get_template_contents(self) -> str:
         """Get issue template contents."""
         file_ = self.gitlab_connector.projects.get(self.config.project).files.get(
@@ -50,7 +58,7 @@ class CreateIssueAutomation(Automation):
 
         payload = {
             "title": self.interpolate_title(self.config.title),
-            "description": description,
+            "description": self.interpolate_description(description),
         }
 
         if self.config.assignee_group:

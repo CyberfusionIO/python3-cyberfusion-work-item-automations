@@ -14,6 +14,9 @@ import docopt
 import sys
 from schema import Schema
 
+from cyberfusion.WorkItemAutomations.automations.create_milestone import (
+    CreateMilestoneAutomation,
+)
 from cyberfusion.WorkItemAutomations.automations.nop import NOPAutomation
 from cyberfusion.WorkItemAutomations.automations.summarise_issues import (
     SummariseIssuesAutomation,
@@ -21,6 +24,7 @@ from cyberfusion.WorkItemAutomations.automations.summarise_issues import (
 from cyberfusion.WorkItemAutomations.config import (
     Config,
     CreateIssueAutomationConfig,
+    CreateMilestoneAutomationConfig,
     NOPAutomationConfig,
 )
 from cyberfusion.WorkItemAutomations.automations.create_issue import (
@@ -70,6 +74,8 @@ def main() -> None:
     for automation_config in config.automations:
         if isinstance(automation_config, CreateIssueAutomationConfig):
             class_ = CreateIssueAutomation
+        elif isinstance(automation_config, CreateMilestoneAutomationConfig):
+            class_ = CreateMilestoneAutomation
         elif isinstance(automation_config, NOPAutomationConfig):
             class_ = NOPAutomation
         else:

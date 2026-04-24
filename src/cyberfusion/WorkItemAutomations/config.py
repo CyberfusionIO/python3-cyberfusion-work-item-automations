@@ -40,6 +40,15 @@ class CreateIssueAutomationConfig(BaseAutomationConfig):
 
 
 @dataclass
+class CreateMilestoneAutomationConfig(BaseAutomationConfig):
+    """Automation config."""
+
+    project: str
+    title: str
+    description: str | None = None
+
+
+@dataclass
 class NOPAutomationConfig(BaseAutomationConfig):
     """Automation config."""
 
@@ -91,6 +100,20 @@ class Config:
                     assignee_group=automation.get("assignee_group", None),
                     description=automation.get("description", None),
                     template=automation.get("template", None),
+                    schedule=automation["schedule"],
+                )
+            )
+
+        for automation in self._contents["automations"].get("create_milestone", []):
+            automations.append(
+                CreateMilestoneAutomationConfig(
+                    url=self.url,
+                    private_token=self.private_token,
+                    state_directory_path=self.state_directory_path,
+                    name=automation["name"],
+                    project=automation["project"],
+                    title=automation["title"],
+                    description=automation.get("description", None),
                     schedule=automation["schedule"],
                 )
             )

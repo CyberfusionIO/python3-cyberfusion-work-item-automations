@@ -134,3 +134,7 @@ report-mypy.xml
 
 # macOS
 .DS_Store
+
+# Project
+glwia_state_directory/
+glwia.yml
