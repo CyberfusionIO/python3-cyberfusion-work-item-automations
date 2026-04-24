@@ -5,6 +5,7 @@ Automations for GitLab work items (issues, PRs, etc.)
 The following automations are supported:
 
 * Create recurring issues (using cron schedule)
+* Create milestones
 * Summarise issues (useful for sprints, stand-ups, etc.)
 
 GitLab doesn't support workflows natively. For example, there's no built-in way to create recurring issues, or take actions on issues when something happens to a PR, etc.
@@ -80,6 +81,10 @@ automations:
       #   If unspecified, the issue is not assigned to anyone.
       assignee_group: best-developers
       # Issue contents
+      #
+      # Variables:
+      #   - year (example: 2025)
+      #   - month (example: April)
       description: Check stuff, do stuff, ...
       # or use a template (see https://docs.gitlab.com/user/project/description_templates/#create-an-issue-template)
       template: check_stuff.md
@@ -97,6 +102,25 @@ automations:
       description: |
         /assign @ceo
         /label ~"status::to do"
+```
+
+### Create milestones
+
+```yaml
+automations:
+  create_milestone:
+    - name: Create monthly milestone
+      schedule: 0 0 1 * *
+      # Project to create milestone in. Format: namespace/project
+      project: example-group/example-project
+      # Milestone title
+      #
+      # Variables:
+      #   - year (example: 2025)
+      #   - month (example: April)
+      title: "{month} {year}"
+      # Optional
+      description: Monthly milestone
 ```
 
 ### Summarise issues

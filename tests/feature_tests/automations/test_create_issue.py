@@ -400,8 +400,12 @@ def test_create_issue_template(
 
     last_request = issue_mock.last_request.json()
 
-    assert last_request["title"] == automation_config.title
-    assert last_request["description"] == contents
+    assert last_request["title"] == CreateIssueAutomation.interpolate_title(
+        automation_config.title
+    )
+    assert last_request["description"] == CreateIssueAutomation.interpolate_description(
+        contents
+    )
 
 
 def test_create_issue_description(
@@ -519,5 +523,9 @@ def test_create_issue_description(
 
     last_request = issue_mock.last_request.json()
 
-    assert last_request["title"] == automation_config.title
-    assert last_request["description"] == description
+    assert last_request["title"] == CreateIssueAutomation.interpolate_title(
+        automation_config.title
+    )
+    assert last_request["description"] == CreateIssueAutomation.interpolate_description(
+        description
+    )

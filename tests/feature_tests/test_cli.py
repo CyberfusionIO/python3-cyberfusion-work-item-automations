@@ -7,6 +7,7 @@ import logging
 from dataclasses import asdict
 
 from tests.factories import (
+    CreateMilestoneAutomationConfigFactory,
     NOPAutomationConfigFactory,
     CreateIssueAutomationConfigFactory,
     SummariseIssuesAutomationConfigFactory,
@@ -25,6 +26,7 @@ def test_cli_executes_automations(
 ) -> None:
     automations = {
         "create_issue": [asdict(CreateIssueAutomationConfigFactory.create())],
+        "create_milestone": [asdict(CreateMilestoneAutomationConfigFactory.create())],
         "nop": [asdict(NOPAutomationConfigFactory.create())],
         "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.create())],
     }
@@ -45,6 +47,10 @@ def test_cli_executes_automations(
     )
     mocker.patch(
         "cyberfusion.WorkItemAutomations.automations.create_issue.CreateIssueAutomation.execute",
+        return_value=None,
+    )
+    mocker.patch(
+        "cyberfusion.WorkItemAutomations.automations.create_milestone.CreateMilestoneAutomation.execute",
         return_value=None,
     )
     mocker.patch(
@@ -71,6 +77,7 @@ def test_cli_skips_automations(
 ) -> None:
     automations = {
         "create_issue": [asdict(CreateIssueAutomationConfigFactory.build())],
+        "create_milestone": [asdict(CreateMilestoneAutomationConfigFactory.build())],
         "nop": [asdict(NOPAutomationConfigFactory.build())],
         "summarise_issues": [asdict(SummariseIssuesAutomationConfigFactory.build())],
     }

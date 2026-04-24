@@ -4,6 +4,7 @@ import factory
 
 from cyberfusion.WorkItemAutomations.config import (
     CreateIssueAutomationConfig,
+    CreateMilestoneAutomationConfig,
     NOPAutomationConfig,
     SummariseIssuesAutomationConfig,
 )
@@ -75,6 +76,19 @@ class SummariseIssuesAutomationConfigFactory(BaseAutomationConfigFactory):
 
     project = factory.LazyAttribute(lambda obj: f"{obj.namespace}/{obj.project_name}")
     iteration_date_range = "{today_minus_7_days}/{today}"
+    description = factory.Faker("sentence")
+
+
+class CreateMilestoneAutomationConfigFactory(BaseAutomationConfigFactory):
+    class Meta:
+        model = CreateMilestoneAutomationConfig
+
+    class Params:
+        namespace = factory.Faker("word")
+        project_name = factory.Faker("word")
+
+    project = factory.LazyAttribute(lambda obj: f"{obj.namespace}/{obj.project_name}")
+    title = factory.Faker("sentence")
     description = factory.Faker("sentence")
 
 
